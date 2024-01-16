@@ -25,8 +25,9 @@ public class FlowerService implements FlowerServiceInterface{
 
 
     @Override
-    public void createFlower(FlowerDTO flowerDTO) {
+    public FlowerDTO createFlower(FlowerDTO flowerDTO) {
         flowersRepository.save(getBranchEntityFrom(flowerDTO));
+        return flowerDTO;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class FlowerService implements FlowerServiceInterface{
     }
 
     @Override
-    public List<FlowerDTO> flowers() {
+    public List<FlowerDTO> getFlowers() {
         List<Flower> flowers = flowersRepository.findAll();
         return flowers.stream().map(this::getBranchDTOFrom).collect(Collectors.toList());
 

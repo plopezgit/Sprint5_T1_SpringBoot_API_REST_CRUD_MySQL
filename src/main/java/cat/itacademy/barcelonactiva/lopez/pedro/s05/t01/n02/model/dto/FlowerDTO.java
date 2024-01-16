@@ -20,6 +20,10 @@ public class FlowerDTO {
             "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
             "Slovenia", "Spain and Sweden");
 
+    public FlowerDTO(String name, String country) {
+        this.name = name;
+        this.country = country;
+    }
 
     public void setCountry (String country) {
         this.country = country;

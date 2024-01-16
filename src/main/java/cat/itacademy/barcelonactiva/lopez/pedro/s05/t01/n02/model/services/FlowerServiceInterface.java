@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public interface FlowerServiceInterface {
 
-    public void createFlower (FlowerDTO flower);
+    public FlowerDTO createFlower (FlowerDTO flower);
     public void updateFlower (FlowerDTO flower, int id) throws FlowerDoesNotExistException;
-    public List<FlowerDTO> flowers ();
+    public List<FlowerDTO> getFlowers ();
     public FlowerDTO getOneFlowerBy(int id) throws FlowerDoesNotExistException;
     public void deleteFlowerBy(int id) throws FlowerDoesNotExistException;
 
