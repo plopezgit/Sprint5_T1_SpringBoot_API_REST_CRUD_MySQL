@@ -25,9 +25,9 @@ public class FlowerController {
     @Autowired
     private FlowerServiceInterface flowerService;
 
-    @Operation(summary = "It creates a new flower on database.")
+    @Operation(summary = "It creates a new flower.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Created the book successfully.",
+            @ApiResponse(responseCode = "200", description = "Created the flower successfully.",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = FlowerDTO.class)) }),
             @ApiResponse(responseCode = "400", description = "There is an error on the creation request form. Please check the body.",
@@ -45,6 +45,16 @@ public class FlowerController {
         }
     }
 
+    @Operation(summary = "It updates a flower.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated the flower successfully.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FlowerDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied. Please, also double-checking the request body is suggested.",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Flower Not found.",
+                    content = @Content)
+    })
     @PutMapping("{id}")
     public ResponseEntity<FlowerDTO> updateFlower (@PathVariable int id, @RequestBody Flower flowerDTO) {
         FlowerDTO thisFlower = null;
@@ -61,6 +71,16 @@ public class FlowerController {
 
     }
 
+    @Operation(summary = "It deletes a flower.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleted the flower successfully.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FlowerDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied.",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Flower Not found.",
+                    content = @Content)
+    })
     @DeleteMapping ("{id}")
     public ResponseEntity<HashMap<String, Boolean>> deleteFlower (@PathVariable int id) {
         try {
@@ -76,6 +96,16 @@ public class FlowerController {
 
     }
 
+    @Operation(summary = "It gets a flower by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the flower successfully.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FlowerDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied.",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Flower Not found.",
+                    content = @Content)
+    })
     @GetMapping ("{id}")
     public ResponseEntity<FlowerDTO> getOneFlowerByID (@PathVariable int id) {
         FlowerDTO thisFlower = null;
@@ -87,6 +117,16 @@ public class FlowerController {
         return ResponseEntity.ok(thisFlower);
     }
 
+    @Operation(summary = "It gets all the flowers.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Flower list successfully.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FlowerDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied.",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Flower Not found.",
+                    content = @Content)
+    })
     @GetMapping
     public ResponseEntity<List<FlowerDTO>> getAllFlowers () {
         return ResponseEntity.ok(flowerService.getFlowers());
