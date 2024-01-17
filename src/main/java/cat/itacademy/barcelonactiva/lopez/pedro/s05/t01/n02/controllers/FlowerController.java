@@ -29,7 +29,11 @@ public class FlowerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Created the book successfully.",
                     content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = FlowerDTO.class)) })
+                            schema = @Schema(implementation = FlowerDTO.class)) }),
+            @ApiResponse(responseCode = "400", description = "There is an error on the creation request form. Please check the body.",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found.",
+                    content = @Content)
     })
     @PostMapping
     public ResponseEntity<FlowerDTO> createFlower (@RequestBody FlowerDTO flower ) throws ServerException {
