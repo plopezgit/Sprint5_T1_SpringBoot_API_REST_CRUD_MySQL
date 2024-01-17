@@ -120,7 +120,7 @@ public class FlowerController {
             return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), "Flower does not exist", new Date()), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), thisFlower + " Here comes the Flower", new Date()), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(thisFlower, HttpStatus.OK);
     }
 
     @Operation(summary = "It gets all the flowers.")
@@ -134,7 +134,11 @@ public class FlowerController {
                     content = @Content)
     })
     @GetMapping(value = "/getAll", produces = "application/json")
-    public ResponseEntity<List<FlowerDTO>> getAllFlowers () {
+    public ResponseEntity<?> getAllFlowers () {
+        List<FlowerDTO> flowers = flowerService.getFlowers();
+        if (flowers.isEmpty()){
+            return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), "The Flower database seems to be empty.", new Date()), HttpStatus.ACCEPTED);
+        }
         return ResponseEntity.ok(flowerService.getFlowers());
     }
 
