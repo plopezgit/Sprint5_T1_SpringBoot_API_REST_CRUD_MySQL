@@ -91,17 +91,13 @@ public class FlowerController {
                     content = @Content)
     })
     @DeleteMapping (value = "/delete/{id}", produces = "application/json")
-    public ResponseEntity<HashMap<String, Boolean>> deleteFlower (@PathVariable int id) {
+    public ResponseEntity<?> deleteFlower (@PathVariable int id) {
         try {
             flowerService.deleteFlowerBy(id);
         } catch (FlowerDoesNotExistException e) {
-            throw new RuntimeException(e);
+            return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), "Flower does not exist", new Date()), HttpStatus.BAD_REQUEST);
         }
-
-        HashMap<String, Boolean> flowerDeletedState = new HashMap<>();
-        flowerDeletedState.put("Deleted", true);
-
-        return ResponseEntity.ok(flowerDeletedState);
+        return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), " Flower has been deleted", new Date()), HttpStatus.ACCEPTED);
 
     }
 
@@ -116,14 +112,15 @@ public class FlowerController {
                     content = @Content)
     })
     @GetMapping (value = "/getOne/{id}", produces = "application/json")
-    public ResponseEntity<FlowerDTO> getOneFlowerByID (@PathVariable int id) {
-        FlowerDTO thisFlower = null;
+    public ResponseEntity<?> getOneFlowerByID (@PathVariable int id) {
+        FlowerDTO thisFlower;
         try {
             thisFlower = flowerService.getOneFlowerBy(id);
         } catch (FlowerDoesNotExistException e) {
-            throw new RuntimeException(e);
+            return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), "Flower does not exist", new Date()), HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(thisFlower);
+
+        return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), thisFlower + " Here comes the Flower", new Date()), HttpStatus.ACCEPTED);
     }
 
     @Operation(summary = "It gets all the flowers.")
