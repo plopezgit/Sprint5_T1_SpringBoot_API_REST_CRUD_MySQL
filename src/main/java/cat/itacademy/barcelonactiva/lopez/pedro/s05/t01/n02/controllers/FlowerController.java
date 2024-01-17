@@ -4,6 +4,7 @@ import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.exception.FlowerDoes
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.domain.Flower;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto.FlowerDTO;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.services.FlowerServiceInterface;
+import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.util.ApiMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.ServerException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,12 +40,17 @@ public class FlowerController {
                     content = @Content)
     })
     @PostMapping (value = "/add", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<FlowerDTO> createFlower (@RequestBody FlowerDTO flower ) throws ServerException {
+    public ResponseEntity<?> createFlower (@RequestBody FlowerDTO flower) throws ServerException {
         FlowerDTO flowerDTO = flowerService.createFlower(flower);
-        if (flowerDTO == null) {
-            throw new ServerException("There is server exception error, please try again later.");
-        } else {
-            return new ResponseEntity<>(flowerDTO, HttpStatus.CREATED);
+        try {
+            if (flowerDTO == null) {
+                throw new ServerException("There is server exception error, please try again later.");
+            } else {
+                return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), "Flower has been updated", new Date()), HttpStatus.ACCEPTED);
+            }
+        } catch (ServerException e) {
+            return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage(), new Date()), HttpStatus.BAD_REQUEST);
+
         }
     }
 
@@ -58,18 +65,18 @@ public class FlowerController {
                     content = @Content)
     })
     @PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<FlowerDTO> updateFlower (@PathVariable int id, @RequestBody Flower flowerDTO) {
+    public ResponseEntity<?> updateFlower (@PathVariable int id, @RequestBody Flower flowerDTO) {
         FlowerDTO thisFlower = null;
         try {
             thisFlower = flowerService.getOneFlowerBy(id);
         } catch (FlowerDoesNotExistException e) {
-            throw new RuntimeException(e);
+            return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), "Flower does not exist", new Date()), HttpStatus.BAD_REQUEST);
         }
         thisFlower.setName(flowerDTO.getName());
         thisFlower.setCountry(flowerDTO.getCountry());
         FlowerDTO updatedFlower = flowerService.createFlower(thisFlower);
 
-        return new ResponseEntity<>(updatedFlower, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), updatedFlower + " Flower has been updated", new Date()), HttpStatus.ACCEPTED);
 
     }
 
