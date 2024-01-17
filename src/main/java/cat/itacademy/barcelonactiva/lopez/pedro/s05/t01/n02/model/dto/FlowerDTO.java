@@ -1,6 +1,7 @@
 package cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +12,20 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlowerDTO {
+    @Schema(description = "Flower entity/DTO identification attribute.", example = "1", required = true)
     private int id;
+    @Schema(description = "Flower entity/DTO naming attribute.", example = "Tulip", required = true)
     private String name;
+    @Schema(description = "Flower entity/DTO country attribute.", example = "Spain", required = true)
     private String country;
+    @Schema(description = "Flower entity/DTO type(EURO/NOT EURO) attribute.", example = "Euro", required = true)
     private String type;
     @JsonIgnore
     private final List<String> EUROPEAN_COUNTRIES_REFERENCE = List.of("Austria", "Belgium", "Bulgaria", "Croatia", "Republic of Cyprus",
             "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany",
             "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg",
             "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
-            "Slovenia", "Spain and Sweden");
+            "Slovenia", "Spain, Sweden");
 
     public FlowerDTO(String name, String country) {
         this.name = name;

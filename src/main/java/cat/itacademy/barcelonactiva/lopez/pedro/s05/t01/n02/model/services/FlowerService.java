@@ -4,6 +4,7 @@ import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.exception.FlowerDoes
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.domain.Flower;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto.FlowerDTO;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.repository.FlowerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
@@ -13,10 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class FlowerService implements FlowerServiceInterface{
 
     @Autowired
-    private FlowerRepository flowersRepository;
+    private final FlowerRepository flowersRepository;
 
     @Autowired
     private ModelMapper flowerModelMapper;
