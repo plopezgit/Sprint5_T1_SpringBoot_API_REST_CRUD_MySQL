@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/flowers")
+@RequiredArgsConstructor
 public class FlowerController {
 
     @Autowired
-    private FlowerServiceInterface flowerService;
+    private final FlowerServiceInterface flowerService;
 
     @Operation(summary = "It creates a new flower.")
     @ApiResponses(value = {
@@ -35,7 +37,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "404", description = "Not found.",
                     content = @Content)
     })
-    @PostMapping
+    @PostMapping (value = "/add", produces = "application/json", consumes = "application/json")
     public ResponseEntity<FlowerDTO> createFlower (@RequestBody FlowerDTO flower ) throws ServerException {
         FlowerDTO flowerDTO = flowerService.createFlower(flower);
         if (flowerDTO == null) {
@@ -55,7 +57,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "404", description = "Flower Not found.",
                     content = @Content)
     })
-    @PutMapping("{id}")
+    @PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
     public ResponseEntity<FlowerDTO> updateFlower (@PathVariable int id, @RequestBody Flower flowerDTO) {
         FlowerDTO thisFlower = null;
         try {
@@ -81,7 +83,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "404", description = "Flower Not found.",
                     content = @Content)
     })
-    @DeleteMapping ("{id}")
+    @DeleteMapping (value = "/delete/{id}", produces = "application/json")
     public ResponseEntity<HashMap<String, Boolean>> deleteFlower (@PathVariable int id) {
         try {
             flowerService.deleteFlowerBy(id);
@@ -106,7 +108,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "404", description = "Flower Not found.",
                     content = @Content)
     })
-    @GetMapping ("{id}")
+    @GetMapping (value = "/getOne/{id}", produces = "application/json")
     public ResponseEntity<FlowerDTO> getOneFlowerByID (@PathVariable int id) {
         FlowerDTO thisFlower = null;
         try {
@@ -127,7 +129,7 @@ public class FlowerController {
             @ApiResponse(responseCode = "404", description = "Flower Not found.",
                     content = @Content)
     })
-    @GetMapping
+    @GetMapping(value = "/getAll", produces = "application/json")
     public ResponseEntity<List<FlowerDTO>> getAllFlowers () {
         return ResponseEntity.ok(flowerService.getFlowers());
     }
