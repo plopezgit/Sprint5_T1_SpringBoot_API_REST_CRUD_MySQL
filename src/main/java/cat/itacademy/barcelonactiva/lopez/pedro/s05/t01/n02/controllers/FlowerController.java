@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.rmi.ServerException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -40,17 +40,16 @@ public class FlowerController {
                     content = @Content)
     })
     @PostMapping (value = "/add", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> createFlower (@RequestBody FlowerDTO flower) throws ServerException {
+    public ResponseEntity<?> createFlower (@Valid @RequestBody FlowerDTO flower) throws ServerException {
         FlowerDTO flowerDTO = flowerService.createFlower(flower);
         try {
             if (flowerDTO == null) {
                 throw new ServerException("There is server exception error, please try again later.");
             } else {
-                return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), "Flower has been updated", new Date()), HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), "Flower has been created", new Date()), HttpStatus.ACCEPTED);
             }
         } catch (ServerException e) {
             return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage(), new Date()), HttpStatus.BAD_REQUEST);
-
         }
     }
 
@@ -65,7 +64,7 @@ public class FlowerController {
                     content = @Content)
     })
     @PutMapping(value = "/update/{id}", produces = "application/json", consumes = "application/json")
-    public ResponseEntity<?> updateFlower (@PathVariable int id, @RequestBody Flower flowerDTO) {
+    public ResponseEntity<?> updateFlower (@PathVariable int id, @Valid @RequestBody Flower flowerDTO) {
         FlowerDTO thisFlower = null;
         try {
             thisFlower = flowerService.getOneFlowerBy(id);
@@ -77,7 +76,6 @@ public class FlowerController {
         FlowerDTO updatedFlower = flowerService.createFlower(thisFlower);
 
         return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), updatedFlower + " Flower has been updated", new Date()), HttpStatus.ACCEPTED);
-
     }
 
     @Operation(summary = "It deletes a flower.")
@@ -98,7 +96,6 @@ public class FlowerController {
             return new ResponseEntity<>(new ApiMessage(HttpStatus.BAD_REQUEST.value(), "Flower does not exist", new Date()), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), " Flower has been deleted", new Date()), HttpStatus.ACCEPTED);
-
     }
 
     @Operation(summary = "It gets a flower by its ID.")
@@ -138,8 +135,8 @@ public class FlowerController {
         List<FlowerDTO> flowers = flowerService.getFlowers();
         if (flowers.isEmpty()){
             return new ResponseEntity<>(new ApiMessage(HttpStatus.OK.value(), "The Flower database seems to be empty.", new Date()), HttpStatus.ACCEPTED);
+        } else {
+            return ResponseEntity.ok(flowerService.getFlowers());
         }
-        return ResponseEntity.ok(flowerService.getFlowers());
     }
-
 }

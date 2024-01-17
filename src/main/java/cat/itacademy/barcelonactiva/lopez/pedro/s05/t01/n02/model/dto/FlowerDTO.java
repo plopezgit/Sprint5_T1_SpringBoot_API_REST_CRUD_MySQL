@@ -1,10 +1,13 @@
 package cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
 
 import java.util.List;
 
@@ -15,8 +18,10 @@ public class FlowerDTO {
     @Schema(description = "Flower entity/DTO identification attribute.", example = "1", required = true)
     private int id;
     @Schema(description = "Flower entity/DTO naming attribute.", example = "Tulip", required = true)
+    @NotEmpty
     private String name;
     @Schema(description = "Flower entity/DTO country attribute.", example = "Spain", required = true)
+    @NotEmpty
     private String country;
     @Schema(description = "Flower entity/DTO type(EURO/NOT EURO) attribute.", example = "Euro", required = true)
     private String type;
