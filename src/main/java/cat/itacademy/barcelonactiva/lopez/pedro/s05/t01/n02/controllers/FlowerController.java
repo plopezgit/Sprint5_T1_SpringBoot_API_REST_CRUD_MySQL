@@ -4,6 +4,11 @@ import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.exception.FlowerDoes
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.domain.Flower;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto.FlowerDTO;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.services.FlowerServiceInterface;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +25,14 @@ public class FlowerController {
     @Autowired
     private FlowerServiceInterface flowerService;
 
+    @Operation(summary = "It creates a new flower on database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Created the book successfully.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = FlowerDTO.class)) })
+    })
     @PostMapping
-    public ResponseEntity<FlowerDTO> createCoin (@RequestBody FlowerDTO flower ) throws ServerException {
+    public ResponseEntity<FlowerDTO> createFlower (@RequestBody FlowerDTO flower ) throws ServerException {
         FlowerDTO flowerDTO = flowerService.createFlower(flower);
         if (flowerDTO == null) {
             throw new ServerException("There is server exception error, please try again later.");
@@ -47,7 +58,7 @@ public class FlowerController {
     }
 
     @DeleteMapping ("{id}")
-    public ResponseEntity<HashMap<String, Boolean>> deleteCoin (@PathVariable int id) {
+    public ResponseEntity<HashMap<String, Boolean>> deleteFlower (@PathVariable int id) {
         try {
             flowerService.deleteFlowerBy(id);
         } catch (FlowerDoesNotExistException e) {
@@ -62,7 +73,7 @@ public class FlowerController {
     }
 
     @GetMapping ("{id}")
-    public ResponseEntity<FlowerDTO> getOneCoinByID (@PathVariable int id) {
+    public ResponseEntity<FlowerDTO> getOneFlowerByID (@PathVariable int id) {
         FlowerDTO thisFlower = null;
         try {
             thisFlower = flowerService.getOneFlowerBy(id);
@@ -73,7 +84,7 @@ public class FlowerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FlowerDTO>> getAllCoins () {
+    public ResponseEntity<List<FlowerDTO>> getAllFlowers () {
         return ResponseEntity.ok(flowerService.getFlowers());
     }
 
