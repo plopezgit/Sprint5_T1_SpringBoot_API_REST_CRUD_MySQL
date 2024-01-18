@@ -9,27 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FlowerService implements FlowerServiceInterface{
+public class FlowerService implements FlowerServiceInterface {
 
-    @Autowired
     private final FlowerRepository flowersRepository;
 
     @Autowired
     private ModelMapper flowerModelMapper;
 
-
-
-
     @Override
-    public FlowerDTO createFlower(FlowerDTO flowerDTO) {
+    public void createFlower(FlowerDTO flowerDTO) {
         flowersRepository.save(getBranchEntityFrom(flowerDTO));
-        return flowerDTO;
     }
 
     @Override
@@ -44,14 +38,12 @@ public class FlowerService implements FlowerServiceInterface{
     public List<FlowerDTO> getFlowers() {
         List<Flower> flowers = flowersRepository.findAll();
         return flowers.stream().map(this::getBranchDTOFrom).collect(Collectors.toList());
-
     }
 
     @Override
     public FlowerDTO getOneFlowerBy(int id) throws FlowerDoesNotExistException {
         return flowersRepository.findById(id).map(this::getBranchDTOFrom)
                 .orElseThrow(() -> new FlowerDoesNotExistException("The flower does not exist"));
-
     }
 
     @Override
@@ -60,11 +52,11 @@ public class FlowerService implements FlowerServiceInterface{
         flowersRepository.delete(getBranchEntityFrom(branchDTO));
     }
 
-    private FlowerDTO getBranchDTOFrom (Flower flower) {
+    private FlowerDTO getBranchDTOFrom(Flower flower) {
         return flowerModelMapper.map(flower, FlowerDTO.class);
     }
 
-    private Flower getBranchEntityFrom (FlowerDTO flowerDTO) {
+    private Flower getBranchEntityFrom(FlowerDTO flowerDTO) {
         return flowerModelMapper.map(flowerDTO, Flower.class);
     }
 

@@ -9,13 +9,16 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Flower API", version = "1.0.0"))
+@SuppressWarnings("unused")
 public class S5T1SpringBootApiRestCrudMySqlApplication {
 
-	@Bean
-	public ModelMapper modelMapper () { return new ModelMapper();}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(S5T1SpringBootApiRestCrudMySqlApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(S5T1SpringBootApiRestCrudMySqlApplication.class, args);
+    }
 
 }

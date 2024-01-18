@@ -9,8 +9,9 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiMessage {
+public class Message {
     private int responseCode;
     private String message;
+    private String messageDescription;
     private Date responseTimestamp;
 }
