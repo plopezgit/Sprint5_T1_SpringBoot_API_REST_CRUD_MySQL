@@ -1,6 +1,7 @@
-package cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.exception;
+package cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.controllers;
 
-import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.util.Message;
+import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.exception.FlowerDoesNotExistException;
+import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.controllers.util.Message;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestControllerAdvice
 @SuppressWarnings("unused")
-public class ControllerExceptionHandler {
+public class ExceptionController {
 
     @ExceptionHandler(FlowerDoesNotExistException.class)
     // docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/ExceptionHandler.html

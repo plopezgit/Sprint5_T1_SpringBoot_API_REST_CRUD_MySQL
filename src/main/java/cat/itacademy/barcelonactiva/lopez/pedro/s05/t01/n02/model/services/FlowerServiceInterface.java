@@ -1,6 +1,6 @@
 package cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.services;
 
-import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.exception.FlowerDoesNotExistException;
+import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.exception.FlowerDoesNotExistException;
 import cat.itacademy.barcelonactiva.lopez.pedro.s05.t01.n02.model.dto.FlowerDTO;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public interface FlowerServiceInterface {
 
     List<FlowerDTO> getFlowers();
 
-    FlowerDTO getOneFlowerBy(int id) throws FlowerDoesNotExistException;
+    FlowerDTO getFlowerBy(int id) throws FlowerDoesNotExistException;
 
     void deleteFlowerBy(int id) throws FlowerDoesNotExistException;
 

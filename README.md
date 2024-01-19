@@ -1,5 +1,7 @@
 # Sprint5_T1_Spring Boot_API_REST_CRUD_MySQL
 
+## Requirement:
+
 We have an entity called  FlorEntity , which has the following properties:
 - Integer id
 - String name
@@ -45,3 +47,12 @@ You should include  swagger  so that any developer can get a quick idea of â€‹â€
 Very important
 
 In addition to the Git link for the solved assignment,  you must include at least two links , other than the resources we have provided you with on campus, that have helped you, or could have helped you, to solve the entire assignment or some parts.
+
+
+## Appendix
+
+### Documentation
+![](/Users/pedrolopez/Proyectos/S5T1_SpringBoot_API_REST_CRUD_MySQL/Documentation.png)
+
+### Postman
+![](/Users/pedrolopez/Proyectos/S5T1_SpringBoot_API_REST_CRUD_MySQL/Postman.png)
